@@ -1,0 +1,44 @@
+{
+  "builders": [
+    {
+      "type": "docker",
+      "image": "debian:jessie",
+      "commit": true
+    }
+  ],
+
+  "provisioners": [
+    {
+      "type": "shell",
+      "script": "./install.sh"
+    },
+    {
+      "type": "file",
+      "source": "./conf/nginx/",
+      "destination": "/etc/nginx/"
+    },
+    {
+      "type": "file",
+      "source": "./conf/fpm/",
+      "destination": "/etc/php/7.2/fpm/"
+    },
+    {
+      "type": "file",
+      "source": "./conf/php.ini",
+      "destination": "/etc/php/7.2/fpm/"
+    },
+    {
+      "type": "file",
+      "source": "./conf/supervisor/",
+      "destination": "/etc/supervisor/conf.d/"
+    }
+  ],
+
+  "post-processors": [
+    {
+      "type": "docker-tag",
+      "tag": "latest",
+      "repository": "private/webapp"
+    }
+  ]
+}
